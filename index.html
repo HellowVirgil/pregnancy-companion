@@ -227,6 +227,8 @@
     .rail-chip.is-completed { background: var(--brand-soft); border-color: transparent; }
     .rail-chip.is-completed .rail-name { color: var(--brand-deep); }
     .rail-chip.is-past { opacity: .55; }
+    .rail-chip.is-photo { border-style: dashed; border-color: #ddcfb2; background: #fdfaf3; }
+    .rail-chip.is-photo .rail-name { color: var(--blush-deep); }
 
     /* ===== 产检时间轴 ===== */
     .prenatal-spine { margin-top: 20px; display: grid; }
@@ -244,6 +246,9 @@
     .prenatal-item[data-status="current"] .prenatal-card { border-color: #cfe0cf; box-shadow: var(--shadow-2); }
     .prenatal-item[data-status="next"] .prenatal-card { background: #fdf8ec; }
     .prenatal-item[data-completed="true"] .prenatal-card { opacity: .85; }
+    .prenatal-item[data-kind="photo"] .prenatal-card { background: #fdf9f0; }
+    .prenatal-heading .photo-ico { display: inline-grid; place-items: center; }
+    .prenatal-heading .photo-ico svg { width: 17px; height: 17px; color: var(--blush); }
     .prenatal-toggle { width: 100%; display: flex; align-items: center; gap: 14px; padding: 16px 18px; border: 0; background: transparent; color: var(--ink); text-align: left; cursor: pointer; }
     .prenatal-toggle-main { flex: 1; min-width: 0; display: grid; gap: 3px; }
     .prenatal-heading { font-size: 16.5px; font-weight: 750; letter-spacing: -.01em; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
@@ -631,7 +636,7 @@
       <div class="panel-head">
         <div>
           <h2>孕检里程碑</h2>
-          <p>先看当前与下一阶段，再按需展开整个孕期；点击上方芯片可快速跳转。</p>
+          <p>先看当前与下一阶段，再按需展开整个孕期；产检与孕肚周记（两周一张）节点同轴排列，点击上方芯片可快速跳转。</p>
         </div>
         <span class="pill pill-info">28周前约每4周 · 28–36周约每2周 · 36周后通常每周</span>
       </div>
@@ -1076,6 +1081,29 @@
       }
     ];
 
+    /* ===== 孕肚周记与孕妇照节点 ===== */
+    const BELLY_PHOTO_WEEKS = [12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32, 34, 36, 38, 40];
+    const BELLY_PHOTO_MILESTONES = BELLY_PHOTO_WEEKS.map((week) => {
+      const start = addDays(PROFILE.lmp, week * 7);
+      return {
+        id: `belly-w${week}`, kind: 'photo', title: `孕肚周记 · 孕${week}周`,
+        railLabel: `孕肚${week}周`, railRow: 0, gestation: `孕${week}周`,
+        start, end: addDays(start, 6), place: '在家',
+        summary: '同姿势、同背景拍一张孕肚照片，两周一张见证变化',
+        actions: ['和上一张同姿势、同光线、同背景，拍正面与侧面各一张', '按孕周命名归档到同一相册，孕晚期可拼成成长视频'],
+        why: ['直观记录腹部与体重的变化曲线', '将来送给宝宝的一份成长纪念']
+      };
+    });
+    const MATERNITY_PHOTO_MILESTONE = {
+      id: 'maternity-photoshoot', kind: 'photo', title: '孕晚期孕妇照拍摄', railLabel: '孕妇照', railRow: 0, railPriority: true,
+      gestation: '孕28–30周+5天', start: '2027-01-11', end: '2027-01-30', place: '杭州 · 摄影棚',
+      summary: '黄金窗口拍一组孕妇照，作为三口之家的第一张"全家福"',
+      actions: ['孕25–26周完成摄影套系预约（见任务清单）', '拍摄控制在半天以内，优先室内棚拍，外景注意防滑保暖', '当天体力不支或身体不适，果断改期'],
+      why: ['孕28–30周孕肚圆润、浮肿较少、体力尚可', '孕35周+4天就要赴港待产，拍摄宜早不宜迟']
+    };
+    PRENATAL_MILESTONES.push(...BELLY_PHOTO_MILESTONES, MATERNITY_PHOTO_MILESTONE);
+    PRENATAL_MILESTONES.sort((a, b) => a.start.localeCompare(b.start));
+
     function prenatalRange(milestone) {
       if (milestone.appointment) return `${formatDotDate(milestone.appointment)} · 已预约`;
       if (milestone.displayEnd === '起') return `${formatDotDate(milestone.start)}起`;
@@ -1085,7 +1113,7 @@
     function currentPrenatalIndex(date) {
       let current = 0;
       PRENATAL_MILESTONES.forEach((item, index) => {
-        if (date >= item.start) current = index;
+        if (item.kind !== 'photo' && date >= item.start) current = index;
       });
       return current;
     }
@@ -1356,6 +1384,22 @@
         materials: ['孕妇身份证件', '疫苗和过敏史'],
         actions: ['向香港产科确认接种地点和日期'],
         cautions: ['发热或既往严重过敏时提前告知医生']
+      },
+      {
+        id: 'maternity-photo-booking', category: 'hangzhou', title: '预约孕晚期孕妇照拍摄',
+        start: '2026-12-21', end: '2027-01-03', gestation: '孕25周–26周+6天',
+        why: '孕28–30周是孕肚形态最好、体力也跟得上的黄金拍摄期；靠谱摄影机构档期紧俏，且孕35周+4天就要赴港待产，必须提早锁定。',
+        materials: ['预算与风格参考（棚拍/外景）', '杭州候选摄影机构清单'],
+        actions: ['确认套系内容：服装套数、妆发、底片和精修数量', '优先室内棚拍并确认可随时改期', '预约时说明孕周，选择孕妇专用服装卫生达标的机构'],
+        cautions: ['不要为拍照节食或穿着过度束缚腹部的款式', '避开需要长时间户外等待的外景套系']
+      },
+      {
+        id: 'maternity-photoshoot', category: 'hangzhou', title: '完成孕妇照拍摄',
+        start: '2027-01-11', end: '2027-01-30', gestation: '孕28周–30周+5天',
+        why: '孕28–30周孕肚圆润、浮肿较少、体力尚可，且离3月初赴港待产还有一个多月，是拍摄的黄金窗口。',
+        materials: ['预约确认单', '舒服的平底鞋和保暖外套', '小食和饮水'],
+        actions: ['拍摄控制在半天以内，中途充分休息', '以室内棚拍为主；如拍外景，1月严寒注意防滑保暖', '当天身体不适果断改期，不留遗憾也不硬撑'],
+        cautions: ['避免高难度姿势和长时间站立', '化妆前告知化妆师孕周，避免使用刺激性产品']
       },
       {
         id: 'move-hk', category: 'hong-kong', title: '提前一个月赴香港待产',
@@ -1637,22 +1681,34 @@
       'ogtt': 'ogtt',
       'move-hk': 'move-hk-waiting',
       'gbs': 'gbs-screen',
-      'weekly-visits': 'term-visits'
+      'weekly-visits': 'term-visits',
+      'maternity-photoshoot': 'maternity-photoshoot'
     };
     const PRENATAL_STATE_LABELS = {
       current: '当前阶段', next: '下一阶段', completed: '已完成', past: '已过窗口', future: '后续阶段'
     };
+    const PHOTO_STATE_LABELS = {
+      current: '本周打卡', next: '下次打卡', completed: '已拍摄', past: '可补拍', future: '待拍摄'
+    };
 
     function nextPrenatalIndex(currentIndex) {
       for (let index = currentIndex + 1; index < PRENATAL_MILESTONES.length; index += 1) {
-        if (!appState.prenatalCompleted[PRENATAL_MILESTONES[index].id]) return index;
+        if (PRENATAL_MILESTONES[index].kind !== 'photo' && !appState.prenatalCompleted[PRENATAL_MILESTONES[index].id]) return index;
       }
       return -1;
     }
 
-    function prenatalDisplayStatus(index, currentIndex, nextIndex) {
+    function prenatalDisplayStatus(item, index, currentIndex, nextIndex) {
+      if (item.kind === 'photo') {
+        if (appState.prenatalCompleted[item.id]) return 'completed';
+        if (today > item.end) return 'past';
+        if (today >= item.start) return 'current';
+        const nextPhoto = BELLY_PHOTO_MILESTONES.find((photo) => !appState.prenatalCompleted[photo.id] && photo.start > today);
+        if (nextPhoto && nextPhoto.id === item.id) return 'next';
+        return 'future';
+      }
       if (index === currentIndex) return 'current';
-      if (appState.prenatalCompleted[PRENATAL_MILESTONES[index].id]) return 'completed';
+      if (appState.prenatalCompleted[item.id]) return 'completed';
       if (index === nextIndex) return 'next';
       return index < currentIndex ? 'past' : 'future';
     }
@@ -1697,6 +1753,7 @@
     const ICON_HEART_SM = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 20.5s-7.5-4.9-9.9-9.6C.4 7.4 2.5 4 6 4c2.2 0 4 1.2 5 3 1-1.8 2.8-3 5-3 3.5 0 5.6 3.4 3.9 6.9-2.4 4.7-7.9 9.6-7.9 9.6z"/></svg>';
     const ICON_SPROUT_SM = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21.5V11"/><path d="M12 11C12 7.3 9.4 4.8 5.8 4.8c0 3.7 2.6 6.2 6.2 6.2z"/><path d="M12 13.5c0-3.1 2.3-5.2 5.4-5.2 0 3.1-2.3 5.2-5.4 5.2z"/></svg>';
     const ICON_COMPASS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15.2 8.8-2.1 4.6-4.6 2.1 2.1-4.6z"/></svg>';
+    const ICON_CAMERA = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 7.5h3L9 5.5h6l1.5 2h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1v-10a1 1 0 0 1 1-1z"/><circle cx="12" cy="13" r="3.5"/></svg>';
 
     /* 宝宝每周平均大小（趣味对照，非医学指标） */
     const FRUIT_SIZES = {
@@ -1862,11 +1919,11 @@
         </div>
         <div class="rail-scroll" role="group" aria-label="孕检里程碑快速跳转">
           ${PRENATAL_MILESTONES.map((item, index) => {
-            const status = prenatalDisplayStatus(index, currentIndex, nextIndex);
-            const state = PRENATAL_STATE_LABELS[status];
+            const status = prenatalDisplayStatus(item, index, currentIndex, nextIndex);
+            const state = (item.kind === 'photo' ? PHOTO_STATE_LABELS : PRENATAL_STATE_LABELS)[status];
             const day = item.appointment || item.start;
             const suffix = item.appointment ? '' : (item.displayEnd === '起' ? '起' : '');
-            return `<button class="rail-chip is-${status}" type="button" data-rail-target="${item.id}" aria-label="${item.title}，${state}">
+            return `<button class="rail-chip is-${status}${item.kind === 'photo' ? ' is-photo' : ''}" type="button" data-rail-target="${item.id}" aria-label="${item.title}，${state}">
               <span class="rail-name">${item.railLabel}</span><span class="rail-date">${formatShortDate(day)}${suffix}</span>
             </button>`;
           }).join('')}
@@ -1882,17 +1939,21 @@
       const nextIndex = nextPrenatalIndex(currentIndex);
       const spine = document.querySelector('#prenatal-spine');
       spine.innerHTML = PRENATAL_MILESTONES.map((item, index) => {
-        const status = prenatalDisplayStatus(index, currentIndex, nextIndex);
+        const status = prenatalDisplayStatus(item, index, currentIndex, nextIndex);
         const expanded = status === 'current' || status === 'next' || manuallyOpenPrenatal.has(item.id);
         const completed = Boolean(appState.prenatalCompleted[item.id]);
-        const stateLabel = completed && status === 'current' ? '当前阶段 · 已完成' : PRENATAL_STATE_LABELS[status];
+        const stateLabels = item.kind === 'photo' ? PHOTO_STATE_LABELS : PRENATAL_STATE_LABELS;
+        const stateLabel = completed && status === 'current'
+          ? (item.kind === 'photo' ? '本周已拍摄' : '当前阶段 · 已完成')
+          : stateLabels[status];
+        const headingIcon = item.kind === 'photo' ? `<span class="photo-ico" aria-hidden="true">${ICON_CAMERA}</span>` : '';
         return `
-          <article class="prenatal-item" data-prenatal-id="${item.id}" data-prenatal-status="${status}" data-completed="${completed}">
+          <article class="prenatal-item" data-prenatal-id="${item.id}" data-prenatal-status="${status}" data-kind="${item.kind || 'medical'}" data-completed="${completed}">
             <div class="prenatal-rail" aria-hidden="true"><span class="prenatal-dot"></span></div>
             <div class="prenatal-card">
               <button class="prenatal-toggle" type="button" data-prenatal-toggle aria-expanded="${expanded}" aria-controls="prenatal-body-${item.id}">
                 <span class="prenatal-toggle-main">
-                  <span class="prenatal-heading">${item.title}<span class="state-chip">${stateLabel}</span></span>
+                  <span class="prenatal-heading">${headingIcon}${item.title}<span class="state-chip">${stateLabel}</span></span>
                   <span class="prenatal-summary">${item.summary}</span>
                   <span class="prenatal-when">${item.gestation} · ${prenatalRange(item)} · ${item.place}</span>
                 </span>
@@ -1983,7 +2044,10 @@
       const next = chooseNextTask(date);
       const completedCount = TASKS.filter((task) => appState.completed[task.id]).length;
       const percentage = Math.round(completedCount / TASKS.length * 100);
-      const prenatalDone = PRENATAL_MILESTONES.filter((item) => appState.prenatalCompleted[item.id]).length;
+      const prenatalTotal = PRENATAL_MILESTONES.filter((item) => item.kind !== 'photo').length;
+      const prenatalDone = PRENATAL_MILESTONES.filter((item) => item.kind !== 'photo' && appState.prenatalCompleted[item.id]).length;
+      const photoTotal = BELLY_PHOTO_MILESTONES.length;
+      const photoDone = BELLY_PHOTO_MILESTONES.filter((item) => appState.prenatalCompleted[item.id]).length;
 
       const beacon = document.querySelector('#next-beacon');
       beacon.innerHTML = next ? `
@@ -2024,9 +2088,11 @@
         <div class="side-card">
           <div class="side-head"><h3>整体进度</h3><span class="progress-num">${completedCount} / ${TASKS.length}</span></div>
           <div class="progress-track" aria-label="整体完成进度"><div class="progress-fill" style="width:${percentage}%"></div></div>
-          <div class="side-head sub"><h3>产检里程碑</h3><span class="progress-num">${prenatalDone} / ${PRENATAL_MILESTONES.length}</span></div>
-          <div class="progress-track" aria-label="产检里程碑完成进度"><div class="progress-fill" style="width:${Math.round(prenatalDone / PRENATAL_MILESTONES.length * 100)}%"></div></div>
-          <p class="progress-hint">产检、香港登记、旅行、月子、月嫂和证件统一记录</p>
+          <div class="side-head sub"><h3>产检里程碑</h3><span class="progress-num">${prenatalDone} / ${prenatalTotal}</span></div>
+          <div class="progress-track" aria-label="产检里程碑完成进度"><div class="progress-fill" style="width:${prenatalTotal ? Math.round(prenatalDone / prenatalTotal * 100) : 0}%"></div></div>
+          <div class="side-head sub"><h3>孕肚周记</h3><span class="progress-num">${photoDone} / ${photoTotal}</span></div>
+          <div class="progress-track" aria-label="孕肚周记完成进度"><div class="progress-fill" style="width:${photoTotal ? Math.round(photoDone / photoTotal * 100) : 0}%; background:linear-gradient(90deg, #e8b09a, var(--blush));"></div></div>
+          <p class="progress-hint">产检、香港登记、旅行、月子、月嫂和证件统一记录；孕肚周记每两周一张</p>
         </div>`;
 
       beacon.querySelector('[data-beacon-complete]')?.addEventListener('click', (event) => {
