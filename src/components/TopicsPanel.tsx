@@ -1,8 +1,8 @@
 import { IconActivity, IconCamera, IconDoc, IconHeart, IconHome, IconSprout } from './icons'
 
-export default function TopicsPanel() {
+export default function TopicsPanel({ active }: { active: boolean }) {
   return (
-    <section id="panel-topics" className="panel" role="tabpanel" aria-labelledby="tab-topics">
+    <section id="panel-topics" className={`panel${active ? ' is-active' : ''}`} role="tabpanel" aria-labelledby="tab-topics">
       <div className="panel-head">
         <div>
           <h2>专题指引</h2>

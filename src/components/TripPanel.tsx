@@ -8,13 +8,13 @@ const REGIONS = [
   { id: 'trip-return', label: '返程' },
 ]
 
-export default function TripPanel() {
+export default function TripPanel({ active }: { active: boolean }) {
   const jump = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: scrollBehavior(), block: 'start' })
   }
 
   return (
-    <section id="panel-trip" className="panel" role="tabpanel" aria-labelledby="tab-trip">
+    <section id="panel-trip" className={`panel${active ? ' is-active' : ''}`} role="tabpanel" aria-labelledby="tab-trip">
       <div className="panel-head">
         <div>
           <p className="kicker">澳洲旅行 · 逐日安排</p>

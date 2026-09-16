@@ -17,6 +17,7 @@ export interface Filters {
 interface TasksPanelProps {
   state: AppState
   actions: AppActions
+  active: boolean
   filters: Filters
   onFiltersChange: (filters: Filters) => void
   focusTask: { id: string; nonce: number } | null
@@ -25,7 +26,7 @@ interface TasksPanelProps {
 const CATEGORY_ORDER: Array<CategoryKey | 'all'> = ['all', 'medical', 'hangzhou', 'hong-kong', 'travel', 'postpartum', 'documents']
 const STATUS_ORDER: Array<StatusKey | 'all'> = ['all', 'active', 'upcoming', 'overdue', 'completed']
 
-export default function TasksPanel({ state, actions, filters, onFiltersChange, focusTask }: TasksPanelProps) {
+export default function TasksPanel({ state, actions, active, filters, onFiltersChange, focusTask }: TasksPanelProps) {
   const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set())
 
   useEffect(() => {
@@ -60,7 +61,7 @@ export default function TasksPanel({ state, actions, filters, onFiltersChange, f
   const clearFilters = () => onFiltersChange({ category: 'all', status: 'all', incompleteOnly: false })
 
   return (
-    <section id="panel-tasks" className="panel" role="tabpanel" aria-labelledby="tab-tasks">
+    <section id="panel-tasks" className={`panel${active ? ' is-active' : ''}`} role="tabpanel" aria-labelledby="tab-tasks">
       <div className="panel-head">
         <div>
           <h2>完整任务时间线</h2>

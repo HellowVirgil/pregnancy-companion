@@ -17,6 +17,7 @@ import { celebrate } from '../lib/celebrate'
 interface PrenatalPanelProps {
   state: AppState
   actions: AppActions
+  active: boolean
   openIds: Set<string>
   onToggleExpand: (id: string, open: boolean) => void
   onJumpFromRail: (id: string) => void
@@ -32,7 +33,7 @@ function detailList(title: string, values?: string[], extraClass = '') {
   )
 }
 
-export default function PrenatalPanel({ state, actions, openIds, onToggleExpand, onJumpFromRail }: PrenatalPanelProps) {
+export default function PrenatalPanel({ state, actions, active, openIds, onToggleExpand, onJumpFromRail }: PrenatalPanelProps) {
   const currentIndex = currentPrenatalIndex(TODAY)
   const nextIndex = nextPrenatalIndex(currentIndex, state.prenatalCompleted)
   const gest = gestationOn(TODAY)
@@ -42,7 +43,7 @@ export default function PrenatalPanel({ state, actions, openIds, onToggleExpand,
     prenatalDisplayStatus(item, index, currentIndex, nextIndex, state.prenatalCompleted, TODAY)
 
   return (
-    <section id="panel-prenatal" className="panel" role="tabpanel" aria-labelledby="tab-prenatal" data-testid="prenatal-timeline">
+    <section id="panel-prenatal" className={`panel${active ? ' is-active' : ''}`} role="tabpanel" aria-labelledby="tab-prenatal" data-testid="prenatal-timeline">
       <div className="panel-head">
         <div>
           <h2>孕检里程碑</h2>

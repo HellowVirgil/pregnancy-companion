@@ -122,6 +122,7 @@ export default function App() {
         <DashboardPanel
           state={state}
           actions={actions}
+          active={activeTab === 'dashboard'}
           onOpenSos={() => setSosOpen(true)}
           onOpenTask={openTask}
           onBeaconJump={jumpFromBeacon}
@@ -130,6 +131,7 @@ export default function App() {
         <PrenatalPanel
           state={state}
           actions={actions}
+          active={activeTab === 'prenatal'}
           openIds={openPrenatalIds}
           onToggleExpand={togglePrenatalManual}
           onJumpFromRail={(id) => openPrenatalMilestone(id, true)}
@@ -138,14 +140,15 @@ export default function App() {
         <TasksPanel
           state={state}
           actions={actions}
+          active={activeTab === 'tasks'}
           filters={filters}
           onFiltersChange={setFilters}
           focusTask={focusTask}
         />
 
-        <TripPanel />
+        <TripPanel active={activeTab === 'trip'} />
 
-        <TopicsPanel />
+        <TopicsPanel active={activeTab === 'topics'} />
 
         <footer className="app-footer">
           <strong>使用说明</strong>：本手册用于整理行动，不提供诊断或处方。任何出血、腹痛、胎动异常或医生提出的特殊风险，都应优先按医疗机构指引处理。香港资格、医院流程和宝宝证件政策可能更新，办理前请再次核对官方要求。

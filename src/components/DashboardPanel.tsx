@@ -10,12 +10,13 @@ import { celebrate } from '../lib/celebrate'
 interface DashboardPanelProps {
   state: AppState
   actions: AppActions
+  active: boolean
   onOpenSos: () => void
   onOpenTask: (taskId: string) => void
   onBeaconJump: (taskId: string) => void
 }
 
-export default function DashboardPanel({ state, actions, onOpenSos, onOpenTask, onBeaconJump }: DashboardPanelProps) {
+export default function DashboardPanel({ state, actions, active, onOpenSos, onOpenTask, onBeaconJump }: DashboardPanelProps) {
   const date = TODAY
   const gest = gestationOn(date)
   const week = gest.weeks
@@ -47,7 +48,7 @@ export default function DashboardPanel({ state, actions, onOpenSos, onOpenTask, 
     .sort((a, b) => a.end.localeCompare(b.end))[0]
 
   return (
-    <section id="panel-dashboard" className="panel is-active" role="tabpanel" aria-labelledby="tab-dashboard">
+    <section id="panel-dashboard" className={`panel${active ? ' is-active' : ''}`} role="tabpanel" aria-labelledby="tab-dashboard">
       <div className="hero">
         <div className="hero-grid">
           <div className="hero-main">
