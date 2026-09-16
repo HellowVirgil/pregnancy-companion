@@ -116,7 +116,8 @@ export default function DashboardPanel({ state, actions, active, onOpenSos, onOp
         <span className="confirmed-title">最新进展</span>
         <div className="confirmed-item"><small>早孕复诊</small><strong>已完成多次早孕复诊</strong></div>
         <div className="confirmed-item"><small>超声结果</small><strong>已见胎心胎芽</strong></div>
-        <div className="confirmed-item"><small>下一项已预约</small><strong>9月24日 · NT</strong></div>
+        <div className="confirmed-item"><small>下一项已预约</small><strong>9月28日 · NT</strong></div>
+        <div className="confirmed-item"><small>随后</small><strong>9月30日 · 建社区小卡</strong></div>
       </div>
 
       <button className="emergency-compact" type="button" onClick={onOpenSos} data-testid="emergency-alert">

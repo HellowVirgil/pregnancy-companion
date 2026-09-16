@@ -25,12 +25,12 @@ const MATERNITY_PHOTO_MILESTONE: PrenatalMilestone = {
   why: ['孕28–30周孕肚圆润、浮肿较少、体力尚可', '孕35周+4天就要赴港待产，拍摄宜早不宜迟'],
 }
 
-/** 医学产检节点 + 孕肚打卡节点，按开始日期排序 */
+/** 医学产检节点 + 孕肚打卡节点，按生效日期（预约日优先于窗口起点）排序 */
 export const PRENATAL_MILESTONES: PrenatalMilestone[] = [
   ...PRENATAL_MEDICAL,
   ...BELLY_PHOTO_MILESTONES,
   MATERNITY_PHOTO_MILESTONE,
-].sort((a, b) => a.start.localeCompare(b.start))
+].sort((a, b) => (a.appointment ?? a.start).localeCompare(b.appointment ?? b.start))
 
 export { BELLY_PHOTO_MILESTONES }
 

@@ -60,7 +60,7 @@ src/
   - 两类的状态标签分别是 `PRENATAL_STATE_LABELS` / `PHOTO_STATE_LABELS`，不要混用。
 - **任务状态机**：`taskStatus` = completed（手动勾选）> overdue（今天 > end）> active（窗口内）> upcoming。任务窗口是闭区间，"硬截止"（`hardDeadline`）只影响 Beacon 的优先级排序。
 - **预置完成项**：`storageKeys.ts` 里 `PRESET_COMPLETED` / `PRESET_PRENATAL_COMPLETED` 是真实世界已发生的事（如首次B超），UI 上按钮禁用显示"已确认"，用户无法取消。新增此类节点时加进这两个映射。
-- **数组的顺序**：`PRENATAL_MILESTONES` 必须按 `start` 升序（状态推导依赖顺序），`TASKS` 大致按时间排列（只影响展示顺序）。
+- **数组的顺序**：`PRENATAL_MILESTONES` 必须按生效日期（`appointment ?? start`）升序（状态推导依赖顺序；NT 等有预约日的节点按预约日排序），`TASKS` 大致按时间排列（只影响展示顺序）。
 - `src/data/_generated_*.ts` 是从旧版单文件 HTML 机械提取的原始数据。**小改动直接编辑这两个文件没问题**；它们没有其它构建依赖。
 
 ## 存储与迁移（改前必读）

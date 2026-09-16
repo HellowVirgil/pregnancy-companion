@@ -42,7 +42,7 @@ export const FRUIT_SIZES: Record<number, string> = {
 export interface CountdownItem { label: string; date: string }
 
 export const COUNTDOWNS: CountdownItem[] = [
-  { label: 'NT检查', date: '2026-09-24' },
+  { label: 'NT检查', date: '2026-09-28' },
   { label: '澳洲出发', date: '2026-10-02' },
   { label: '大排畸窗口', date: '2026-11-16' },
   { label: '赴港待产', date: '2027-03-05' },
