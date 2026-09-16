@@ -41,12 +41,15 @@ export default function TripPanel({ active }: { active: boolean }) {
           <div className="day-head"><span className="day-date">10.2</span><span className="day-week">孕13周+4天</span><span className="day-hotel">机上过夜</span></div>
           <ul className="day-plan">
             <li className="flight">08:00 杭州出发</li>
-            <li className="flight">10:40 抵达香港</li>
-            <li>香港医院建档及相关手续</li>
+            <li className="flight">10:40 抵达香港，入境留好小白条</li>
+            <li>12:00 湾仔家计会验孕、取怀孕证明（修顿中心，只收现金）</li>
+            <li>13:30 东区那打素建档：G层登记 → LG2产科护士站</li>
+            <li>15:30 缓冲：吃饭，材料原件归位</li>
+            <li>16:00 最晚离开柴湾回机场（约70分钟路程）</li>
             <li className="flight">19:05 香港出发，飞往悉尼</li>
           </ul>
           <figure className="day-photo"><img src="https://cdn.nlark.com/yuque/0/2026/jpeg/29183418/1783157818857-bd5d00f0-774a-456b-9e42-83a9e7c52b6a.jpeg" alt="10月2日航班资料" loading="lazy" /></figure>
-          <div className="day-tip"><strong>全程最紧张的一天</strong><p>建档手续必须提前预约并设“最晚离开市区”时间；长途飞行每1–2小时活动小腿和起身，补水，安全带低置于髋骨/腹部下方。</p></div>
+          <div className="day-tip"><strong>建档日 · 全程最紧张的一天</strong><p>东区那打素产科和家计会时段须提前电话确认，材料清单与医院对比见「专题指引」香港建档卡片。16:00 是离开柴湾的红线，任一环节延误即压缩后续、保航班优先。</p></div>
         </article>
       </div>
 

@@ -403,6 +403,11 @@
     .mission-steps span { display: block; margin-top: 4px; color: var(--ink-2); font-size: 12.5px; }
     .mission-risk { margin-top: 14px; padding: 13px 15px; border-radius: 14px; background: var(--blush-soft); color: #7c4237; font-size: 13.5px; }
     .mission-risk strong { display: block; margin-bottom: 2px; }
+    .mission-detail { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 9px; margin-top: 9px; }
+    .mission-block { padding: 13px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line-soft); }
+    .mission-block h4 { margin: 0 0 7px; font-size: 13px; }
+    .mission-block ul { margin: 0; padding-left: 16px; font-size: 12.5px; color: var(--ink-2); }
+    .mission-block li { margin: 5px 0; }
     .topic-danger { grid-column: 1 / -1; background: var(--blush-soft); border-color: var(--blush-line); }
     .topic-danger h3 { color: var(--blush-deep); }
     .topic-danger > ul { color: #8d564b; }
