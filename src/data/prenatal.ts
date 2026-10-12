@@ -34,8 +34,8 @@ export const PRENATAL_MILESTONES: PrenatalMilestone[] = [
 
 export { BELLY_PHOTO_MILESTONES }
 
-export function prenatalRange(milestone: PrenatalMilestone): string {
-  if (milestone.appointment) return `${milestone.appointment} · 已预约`
+export function prenatalRange(milestone: PrenatalMilestone, completed = false): string {
+  if (milestone.appointment) return `${milestone.appointment} · ${completed ? '原预约' : '已预约'}`
   if (milestone.displayEnd === '起') return `${milestone.start}起`
   return `${milestone.start}–${milestone.end}`
 }

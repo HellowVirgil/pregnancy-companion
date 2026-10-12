@@ -1,4 +1,4 @@
-import { scrollBehavior } from '../lib/date'
+import { PROFILE, formatChineseDate, scrollBehavior } from '../lib/date'
 
 const REGIONS = [
   { id: 'trip-hk', label: '香港中转' },
@@ -17,15 +17,15 @@ export default function TripPanel({ active }: { active: boolean }) {
     <section id="panel-trip" className={`panel${active ? ' is-active' : ''}`} role="tabpanel" aria-labelledby="tab-trip">
       <div className="panel-head">
         <div>
-          <p className="kicker">澳洲旅行 · 逐日安排</p>
+          <p className="kicker">澳洲旅行 · 已完成</p>
           <h2>10月2日香港出发，10月11日返回上海</h2>
-          <p>出发孕13周+4天，返程孕14周+6天。标★的为重点/候选景点；每天以体力、天气和产科意见为准精简，不追求全部打卡。</p>
+          <p>澳洲行程及返程已完成。以下保留原行程供回顾，景点列表不代表全部实际打卡；如旅行期间有就医资料，整理后交给后续产检医生。</p>
         </div>
-        <span className="pill pill-info">孕中期前段 · 10天9晚</span>
+        <span className="pill pill-brand">已完成 · 10天9晚</span>
       </div>
 
       <div className="trip-principle">
-        <strong>全程共同原则</strong>
+        <strong>原行程的共同提醒（留作参考）</strong>
         <p>出发前完成NT及产科复诊；旅行险书面确认覆盖妊娠突发情况；随身携带中英文孕期摘要、报告电子版和处方药原包装。避免生食、酒精、过热温泉、水肺潜水、高风险徒步及动物抓咬。澳大利亚急救电话为000。</p>
       </div>
 
@@ -42,14 +42,11 @@ export default function TripPanel({ active }: { active: boolean }) {
           <ul className="day-plan">
             <li className="flight">08:00 杭州出发</li>
             <li className="flight">10:40 抵达香港，入境留好小白条</li>
-            <li>12:00 湾仔家计会验孕、取怀孕证明（修顿中心，只收现金）</li>
-            <li>13:30 东区那打素建档：G层登记 → LG2产科护士站</li>
-            <li>15:30 缓冲：吃饭，材料原件归位</li>
-            <li>16:00 最晚离开柴湾回机场（约70分钟路程）</li>
+            <li>香港中转及去程已完成；正式建档另安排赴港办理。</li>
             <li className="flight">19:05 香港出发，飞往悉尼</li>
           </ul>
           <figure className="day-photo"><img src="https://cdn.nlark.com/yuque/0/2026/jpeg/29183418/1783157818857-bd5d00f0-774a-456b-9e42-83a9e7c52b6a.jpeg" alt="10月2日航班资料" loading="lazy" /></figure>
-          <div className="day-tip"><strong>建档日 · 全程最紧张的一天</strong><p>东区那打素产科和家计会时段须提前电话确认，材料清单与医院对比见「专题指引」香港建档卡片。16:00 是离开柴湾的红线，任一环节延误即压缩后续、保航班优先。</p></div>
+          <div className="day-tip"><strong>香港建档另有预约</strong><p>{`已通过 HA Go 预约${formatChineseDate(PROFILE.hkBookingDate)}到东区医院建档，日期可能调整；下次赴港同步确定待产酒店，详见「专题指引」。`}</p></div>
         </article>
       </div>
 

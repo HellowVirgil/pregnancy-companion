@@ -20,30 +20,30 @@ import type { PrenatalMilestone } from '../types'
         warnings: ['疼痛或出血加重时不要等待预约']
       },
       {
-        id: 'baseline-booking', title: '首次正式产检、建册与建档', railLabel: '建册建档', railRow: 0, gestation: '孕8–13周+1天',
-        start: '2026-08-24', end: '2026-09-30', place: '杭州', summary: '完成基础评估并建立连续产检记录（9.28 NT · 9.30 建小卡）',
-        actions: ['9月30日按预约到社区卫生服务中心建小卡（母子健康手册）', '确认产检医院建档条件和名额', '完成医院安排的基础血液、尿液和感染筛查'],
+        id: 'baseline-booking', title: '首次正式产检与社区建册', railLabel: '初检建册', railRow: 0, gestation: '孕8–13周+1天',
+        start: '2026-08-24', end: '2026-09-30', place: '杭州', summary: '社区建册已完成；基础检查按实际记录，省妇保正式建档另待孕30周',
+        actions: ['社区小卡（母子健康手册）已办妥，保存并随产检携带', '省妇保正式建档待孕30周，具体办理日按医院通知（见任务清单）', '按实际检查结果记录基础血液、尿液和感染筛查进度'],
         why: ['建立孕期基线并保证杭州到香港病历连续'],
         preparation: ['身份证、居住和医保材料按社区要求准备', '确认哪些抽血项目需要空腹'],
         questions: ['报告和超声影像如何导出', '转香港时需要哪些原件或英文资料'],
         warnings: ['建档项目和空腹要求以医院通知为准']
       },
       {
-        id: 'aneuploidy-choice', title: '选择染色体筛查方案', railLabel: '筛查方案', railRow: 1, gestation: '约孕10周起',
-        start: '2026-09-07', end: '2026-12-06', place: '杭州/香港方案确认', summary: '在无创DNA、血清筛查和诊断性检查间作知情选择',
-        actions: ['结合年龄、超声、既往史和家庭意愿咨询医生', '确认所选医院或实验室可做时间窗'],
+        id: 'aneuploidy-choice', title: '染色体筛查方案：无创 Plus', railLabel: '无创 Plus', railRow: 1, gestation: '约孕10周起',
+        start: '2026-09-07', end: '2026-12-06', place: '杭州', summary: '已确定无创 Plus；采血和报告进度按实际情况另行记录',
+        actions: ['保存无创 Plus 项目说明并向医生确认检测范围与局限', '跟进采血及报告领取安排，报告出具后请接诊医生解读'],
         why: ['不同方案的筛查范围、准确性、费用和侵入性不同'],
         preparation: ['准备夫妻双方家族史和既往妊娠史'],
-        questions: ['本院无创DNA最早孕周和报告周期', '什么结果需要遗传咨询或羊水穿刺'],
+        questions: ['无创 Plus 采血安排与报告周期', '什么结果需要遗传咨询或进一步诊断'],
         warnings: ['筛查不是确诊，高风险结果需要专业评估']
       },
       {
-        id: 'nt-scan', title: 'NT检查', railLabel: 'NT · 9.28', railRow: 0, railPriority: true, gestation: '孕13周整（预约）',
-        start: '2026-09-14', end: '2026-10-04', appointment: '2026-09-28', place: '杭州 · 省妇保湖滨院区', summary: '已预约；NT窗口（11周–13周+6）后段，距澳洲出发仅4天',
-        actions: ['2026年9月28日按预约到浙江省妇保湖滨院区报到', '取得正式报告和影像资料并保存电子版'],
-        why: ['NT有严格孕周窗口', '避免旅行期间错过截止日期'],
-        preparation: ['提前确认湖滨院区具体报到地点和是否需要憋尿', '携带历次B超及化验报告', '距澳洲出发仅4天，如胎位不合适需当天尽早完成复查'],
-        questions: ['NT结果是否需要进一步筛查或遗传咨询', '检查结果是否影响10月2日长途旅行'],
+        id: 'nt-scan', title: 'NT检查', railLabel: 'NT · 已完成', railRow: 0, railPriority: true, gestation: '孕13周整（原预约）',
+        start: '2026-09-14', end: '2026-10-04', appointment: '2026-09-28', place: '杭州 · 省妇保湖滨院区', summary: 'NT超声已完成，保存报告及影像供后续产检衔接',
+        actions: ['归档正式报告和影像资料并保存电子版', '后续产检和香港建档时携带NT资料'],
+        why: ['保存早期超声结果，便于后续筛查及系统结构超声衔接'],
+        preparation: ['整理NT及历次B超、化验报告'],
+        questions: ['NT结果是否需要进一步筛查或遗传咨询', '如何衔接已确定的无创 Plus 和待预约的四维检查'],
         warnings: ['如检查异常或医生认为不宜飞行，应先完成评估再决定是否出行']
       },
       {
@@ -56,9 +56,9 @@ import type { PrenatalMilestone } from '../types'
         warnings: ['头痛、视物异常、明显水肿或持续不适需提前就诊']
       },
       {
-        id: 'anatomy-scan', title: '系统结构超声（大排畸）', railLabel: '大排畸', railRow: 0, railPriority: true, gestation: '孕20–24周+6天',
-        start: '2026-11-16', end: '2026-12-20', place: '杭州', summary: '系统观察胎儿主要结构发育',
-        actions: ['尽早预约有资质的系统结构超声', '留出复查或进一步评估时间'],
+        id: 'anatomy-scan', title: '四维/系统结构超声（大排畸）', railLabel: '四维/大排畸', railRow: 0, railPriority: true, gestation: '孕20–24周+6天',
+        start: '2026-11-16', end: '2026-12-20', place: '杭州 · 检查日期待预约', summary: '待预约四维检查时间；具体项目和日期以接诊医院安排为准',
+        actions: ['先落实四维/系统结构超声的预约（见任务清单）', '按医院确认的日期完成检查，留出复查或进一步评估时间'],
         why: ['评估胎儿主要器官结构和胎盘、羊水等情况'],
         preparation: ['通常不需空腹，按医院要求准备', '携带既往超声和筛查报告'],
         questions: ['是否需要胎儿心脏专项评估', '异常或显示不清时如何复查'],

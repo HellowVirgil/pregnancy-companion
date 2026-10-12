@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { TODAY, scrollBehavior } from '../lib/date'
 import { CATEGORY_LABELS, STATUS_LABELS } from '../data/labels'
+import { PRESET_COMPLETED } from '../lib/storageKeys'
 import { TASKS, taskRange, taskStatus } from '../data/tasks'
 import type { CategoryKey, StatusKey } from '../types'
 import type { AppActions } from '../hooks/useAppState'
@@ -125,9 +126,9 @@ export default function TasksPanel({ state, actions, active, filters, onFiltersC
                   className="task-check"
                   type="button"
                   aria-pressed={completed}
-                  aria-label={`${completed ? '取消完成：' : '标记完成：'}${task.title}`}
-                  disabled={Boolean(task.id === 'first-ultrasound')}
-                  title={task.id === 'first-ultrasound' ? '真实进展已确认' : undefined}
+                  aria-label={`${PRESET_COMPLETED[task.id] ? '已确认：' : completed ? '取消完成：' : '标记完成：'}${task.title}`}
+                  disabled={Boolean(PRESET_COMPLETED[task.id])}
+                  title={PRESET_COMPLETED[task.id] ? '已确认：真实进展已完成' : undefined}
                   onClick={(event) => {
                     const marking = !completed
                     actions.toggleTask(task.id)
@@ -166,6 +167,14 @@ export default function TasksPanel({ state, actions, active, filters, onFiltersC
                   <div className="detail-block"><strong>准备材料</strong><p>{task.materials.join('；')}</p></div>
                   <div className="detail-block"><strong>执行建议</strong><ul>{task.actions.map((value) => <li key={value}>{value}</li>)}</ul></div>
                   <div className="detail-block caution"><strong>注意事项</strong><ul>{task.cautions.map((value) => <li key={value}>{value}</li>)}</ul></div>
+                  {task.references && (
+                    <div className="detail-block">
+                      <strong>办理参考</strong>
+                      <ul>{task.references.map((reference) => (
+                        <li key={reference.url}><a href={reference.url} target="_blank" rel="noreferrer">{reference.label}</a></li>
+                      ))}</ul>
+                    </div>
+                  )}
                 </div>
                 <label className="note-label">
                   个人备注（自动保存在本机）

@@ -13,6 +13,7 @@ export interface Task {
   actions: string[]
   cautions: string[]
   hardDeadline?: boolean
+  references?: { label: string; url: string }[]
 }
 
 export interface PrenatalMilestone {

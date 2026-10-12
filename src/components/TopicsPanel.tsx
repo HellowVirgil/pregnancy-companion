@@ -1,6 +1,10 @@
+import { PROFILE, formatChineseDate, gestationOn } from '../lib/date'
+import { BABY_DOCUMENT_SOURCES } from '../data/babyDocuments'
+import { RETURN_HOME_SOURCES, RETURN_HOME_STEPS } from '../data/returnHome'
 import { IconActivity, IconCamera, IconDoc, IconHeart, IconHome, IconSprout } from './icons'
 
-export default function TopicsPanel({ active }: { active: boolean }) {
+export default function TopicsPanel({ active, onOpenTask }: { active: boolean; onOpenTask: (taskId: string) => void }) {
+  const bookingGestation = gestationOn(PROFILE.hkBookingDate)
   return (
     <section id="panel-topics" className={`panel${active ? ' is-active' : ''}`} role="tabpanel" aria-labelledby="tab-topics">
       <div className="panel-head">
@@ -13,11 +17,13 @@ export default function TopicsPanel({ active }: { active: boolean }) {
         <article id="hangzhou" className="topic-card">
           <div className="topic-icon ti-brand" aria-hidden="true"><IconSprout size={20} /></div>
           <p className="kicker">杭州产检</p>
-          <h3>社区建册与医院建档分开办理</h3>
+          <h3>社区建册已完成，继续衔接产检资料</h3>
           <ul>
-            <li>9月28日NT检查（省妇保湖滨院区），9月30日建社区小卡，随后完成医院建档衔接。</li>
-            <li>社区常见材料：身份证、居住证明、医保、结婚证、B超报告。</li>
-            <li>选择能导出报告和超声影像、具备24小时产科急诊的医院。</li>
+            <li>杭州社区小卡（母子健康手册）已办妥，按后续产检安排携带。</li>
+            <li>NT 超声已完成，保存报告及影像；染色体筛查方案已确定为无创 Plus，采血及报告进度按实际情况记录。</li>
+            <li>四维（大排畸）检查时间待预约，具体检查项目和日期以接诊医院安排为准。</li>
+            <li>{`省妇保正式建档到孕${PROFILE.hangzhouBookingWeek}周办理，具体日期待医院确认；此前继续按医生安排产检，保存全部报告。`}</li>
+            <li>为香港建档准备已有产检资料原件及电子备份。</li>
           </ul>
         </article>
         <article className="topic-card topic-warm">
@@ -26,86 +32,160 @@ export default function TopicsPanel({ active }: { active: boolean }) {
           <h3>约2027年3月5日赴港，酒店暂未确定</h3>
           <ul>
             <li>按预产期4月5日倒推，提前约1个月到香港待产，届时约孕35周+4天。</li>
-            <li>待产酒店通常提前4个月预订更容易获得优惠，建议在2026年11月5日前完成比价和下订。</li>
+            <li>下次赴港正式建档的同时确定待产酒店；赴港前先整理候选、预算和可改期条款。</li>
             <li>优先选择距分娩医院30–45分钟内、可取消/改期、有电梯和简易厨房/洗衣条件的房型。</li>
-            <li>分娩医院倾向东区那打素（港岛东柴湾）或广华（油麻地）：订房前先电话锁定医院，再按上述车程选区域。</li>
+            <li>以已预约的东区尤德夫人那打素医院（港岛东柴湾）为中心比较区域，实地核对日间和夜间路线。</li>
+            <li>住宿需涵盖分娩后的恢复与宝宝办证缓冲，允许续住和日期调整。</li>
           </ul>
         </article>
         <article id="hong-kong" className="topic-card topic-mission" data-testid="hk-transit-mission">
           <div className="topic-icon ti-blush" aria-hidden="true"><IconCamera size={20} /></div>
           <div className="mission-head">
             <div>
-              <p className="kicker">香港建档 · 中转任务链</p>
-              <h3>10月2日：抵港按时间线办理，16:00 前离开柴湾</h3>
-              <p className="mission-sub">目标医院：优选东区尤德夫人那打素医院（港岛东 · 柴湾，地址证明要求较灵活），备选广华医院（九龙中 · 油麻地）。当天没有补办机会：10月1日是香港公众假期，机构不办公，下次回港要等2027年3月。</p>
+              <p className="kicker">香港建档 · 下次赴港安排</p>
+              <h3>{`HA Go 已预约${formatChineseDate(PROFILE.hkBookingDate)}，日期可能调整`}</h3>
+              <p className="mission-sub">东区尤德夫人那打素医院（港岛东 · 柴湾）线上预约已完成，现场正式建档仍待办理。下次赴港同步确定待产酒店，交通及考察安排随最终预约调整。</p>
             </div>
-            <span className="pill pill-brand">孕13周+4天</span>
+            <span className="pill pill-brand">{`孕${bookingGestation.weeks}周+${bookingGestation.days}天 · 当前预约`}</span>
           </div>
-          <ol className="mission-steps" aria-label="香港中转办事顺序">
-            <li data-mission-step="1"><strong>10:40 落地入境</strong><span>保留入境小白条；激活电话卡，两个香港号码：一个注册 HA Go，一个作医院紧急联络。</span></li>
-            <li data-mission-step="2"><strong>12:00 家计会怀孕证明</strong><span>湾仔修顿中心诊所（湾仔站B1直达，港岛线可直达柴湾）；150港币现金（只收现金），约30–60分钟；热线 2572 2222。</span></li>
-            <li data-mission-step="3"><strong>13:30 东区那打素建档</strong><span>主楼对面G层中央登记处登记，再到LG2层东翼产科护士站；注册 HA Go，说明10月至3月初不在港、首次产检约3月。</span></li>
-            <li data-mission-step="4"><strong>15:30 缓冲整理</strong><span>吃饭休息，材料原件归位；若前面延误超过1小时，从这里压缩，保航班优先。</span></li>
-            <li data-mission-step="5"><strong>16:00 最晚离开柴湾</strong><span>港岛线+机场快线约70分钟、出租约50–60分钟；19:05 国际航班，任一环节延误即压缩后续、保航班优先。</span></li>
+          <ol className="mission-steps" aria-label="下次赴港建档及酒店安排">
+            <li data-mission-step="1"><strong>线上预约已完成</strong><span>保存 HA Go 预约确认，核对医院、日期、报到时间和地点。</span></li>
+            <li data-mission-step="2"><strong>赴港日期待最终确认</strong><span>如需改期，按 HA Go 或医院指引办理，确认新日期后安排交通；提前整理建档材料和酒店候选。</span></li>
+            <li data-mission-step="3"><strong>到东区医院正式建档</strong><span>按最终预约通知报到，说明在杭州产检、计划2027年3月初赴港待产，记录后续产检和需补交资料。</span></li>
+            <li data-mission-step="4"><strong>同次行程确定待产酒店</strong><span>围绕东区医院考察候选酒店或服务式公寓，核对日夜交通、房间、洗衣及取消改期规则。</span></li>
+            <li data-mission-step="5"><strong>整理结果与后续安排</strong><span>保存建档记录、医院联络方式和酒店条款，更新下一次产检及预计2027年3月5日入住安排。</span></li>
           </ol>
           <div className="mission-detail">
             <div className="mission-block">
-              <h4>目标医院 · 建档地点与要求</h4>
+              <h4>东区医院 · 报到与改期</h4>
               <ul>
-                <li>东区尤德夫人那打素医院（优选 · 港岛东 · 柴湾乐民道3号）：先到主楼对面G层中央登记处登记，再到LG2层东翼产科护士站。地址证明要求较灵活、有时甚至不看——对没有香港住址的我们最友好，电话确认时优先锁定这点。产科门诊 2595 7712，周一至五 9:00–17:00；可经 HA Go「预约通」递交产科新症或亲身提交。有自费特别病房（不一定有），探视早8晚9、宝宝晚上可托管，据说较容易排到无痛。柴湾离机场最远，当天时间最紧。</li>
-                <li>广华医院（备选 · 九龙中 · 油麻地）：徐展堂门诊大楼4楼产科门诊1号窗口；须地址证明（6个月内银行月结单/水电煤账单或民政署宣誓），原则上要求住址在九龙城、油尖等服务辖区内（实操中其他区域地址也多有成功）。产科门诊 2242 6624，周一至五 9:00–17:00、周六 9:00–13:00。离机场与家计会最近，当天最稳；新大楼环境好，顺产有概率住单人间。</li>
-                <li>常规建议孕20–24周完成建档、最晚不超28周；你们10月2日（孕13周+4）属提前办理。公立无痛分娩普遍紧张、探视时间较短，如有需要建档时一并询问。</li>
+                <li>东区尤德夫人那打素医院：香港柴湾乐民道3号；产科门诊电话 2595 7712，联络方式以医院最新通知为准。</li>
+                <li>具体报到地点、时间和材料以本次 HA Go 预约通知为准；需要改期时先核对操作方式及可选日期。</li>
+                <li>建档时确认杭州已有检查如何衔接、后续香港复诊日期、分娩安排及急诊入口。</li>
               </ul>
             </div>
             <div className="mission-block">
-              <h4>家计会 · 分行与流程</h4>
+              <h4>怀孕证明与住址材料</h4>
               <ul>
-                <li>湾仔修顿中心诊所（当前优先）：轩尼诗道130号修顿中心地下，湾仔站B1直达——港岛线可直达柴湾，与东区那打素同线最顺；26岁以下需改往8楼青少年保健中心并提前电话预约。</li>
-                <li>马头涌诊所：九龙码头涌道105号1楼，宋皇台站B1出口——若最终改选广华则这条更顺。</li>
-                <li>另有黄大仙、元朗（朗壹广场一座3楼305-306，地图导航可能未更新）、荃湾（南丰中心16楼1621-1622）分行；热线 2572 2222。</li>
-                <li>流程：填表→验尿→缴费，约30–60分钟拿证明；150港币现金（只收现金），带香港身份证、eVisa或入境小白条、香港手机号。</li>
+                <li>先核对已有怀孕证明、转介信和杭州报告是否符合东区医院要求；需要补开时再联系家计会或医院认可的医生。</li>
+                <li>住址证明的种类、有效期及是否接受宣誓，以医院答复为准；如需宣誓，先确认真实住址、指定表格和办理时段。</li>
+                <li>待产酒店确认单不能自动视为医院认可的住址证明。</li>
               </ul>
             </div>
             <div className="mission-block">
-              <h4>住址宣誓 · 无账单时的免费方案</h4>
+              <h4>建档随身材料</h4>
               <ul>
-                <li>就近到各区民政咨询中心办理（湾仔、沙田政府合署等），免费，宣誓签字盖章后当场取件。</li>
-                <li>材料：孕妇香港身份证 + 一个正确的香港地址；酒店地址不可用，可借用亲友地址。</li>
-                <li>提前15分钟到场填表，在指定宣誓时段进入宣誓室完成宣誓；办妥后纸质原件与电子照片各存一份。东区那打素对地址证明较灵活，电话确认后再决定是否需要办。</li>
+                <li>HA Go 预约确认、香港身份证、有效 e-Visa、旅行证件及入境记录。</li>
+                <li>医院要求的怀孕证明、转介信和住址材料。</li>
+                <li>母子健康手册、已有超声与筛查/化验报告、预产期资料、用药及过敏记录；原件和电子备份各一份。</li>
+                <li>可接收通知的香港手机号，以及医院登记的紧急联系人。</li>
               </ul>
             </div>
             <div className="mission-block">
-              <h4>当天随身材料（全部正本）</h4>
+              <h4>待产酒店 · 同次赴港确定</h4>
               <ul>
-                <li>身份证明：香港身份证（或办理回执）、港澳通行证+有效签注、入境小白条。</li>
-                <li>怀孕证明：家计会开具的怀孕证明（转介信）；先向医院确认能否用内地 B 超/hCG 报告代替。</li>
-                <li>住址证明：6个月内银行月结单/水电煤账单，或民政署宣誓证明。</li>
-                <li>联系方式与现金：两个香港手机号（本人 HA Go 一个、紧急联络一个），港币现金约500–1000。</li>
-                <li>产检资料：母子健康手册、NT 与全部超声/血检报告（附英文或翻译更佳）、中英文孕期摘要、电子备份。</li>
+                <li>计划2027年3月5日前后入住，围绕东区医院比较酒店和服务式公寓。</li>
+                <li>核对到医院的日夜交通、房型、电梯、洗衣及简易厨房条件。</li>
+                <li>确认取消、改期、提前分娩和产后续住条款，预留宝宝办证与返杭前的住宿弹性。</li>
               </ul>
             </div>
           </div>
-          <div className="mission-risk"><strong>这不是“到港后现场排队即可”的普通中转。</strong>请在9月15日前逐项确认：东区那打素产科新症接收方式（HA Go 预约通还是现场提交）、地址证明是否可放宽、备选广华所需的辖区与住址材料、家计会分行10月2日（周五）的营业时间与午休空档，并预留回机场及安检时间。任一环节未确认，不应以错过晚间悉尼航班为代价。</div>
+          <div className="mission-risk"><strong>当前预约日期可能调整。</strong>以 HA Go 或医院确认后的日期为准；同步调整赴港交通和酒店考察安排，现场建档完成后再勾选对应任务。</div>
         </article>
-        <article id="postpartum" className="topic-card topic-warm">
+        <article id="postpartum" className="topic-card topic-warm topic-mission" data-testid="return-home-plan">
           <div className="topic-icon ti-lilac" aria-hidden="true"><IconHeart size={20} /></div>
-          <p className="kicker">月子与月嫂</p>
-          <h3>9月底前订中心，12月底前订月嫂</h3>
-          <ul>
-            <li>合同允许实际分娩、NICU和证件延误导致的弹性入住。</li>
-            <li>香港产后预留约7–14天恢复和办证。</li>
-            <li>月嫂预计2027年5月中下旬接手，日期前后浮动至少14天。</li>
-          </ul>
+          <p className="kicker">暂定计划 · 出院办证与高铁返杭</p>
+          <h3>争取出院日办证，商务座返杭后由月子中心接站入住</h3>
+          <p className="mission-sub">杭州月子中心为当前优先方案，具体机构、车次及返杭日期待落实。把出院当天作为办证及衔接返程的目标；五证同日递交与全部领证分开安排，实际启程以母婴情况、证件、列车时刻和中心接收条件均已确认为准。</p>
+          <ol className="mission-steps" aria-label="出院办证及返杭关键节点">
+            {RETURN_HOME_STEPS.map((step) => (
+              <li key={step.taskId} data-return-step={step.taskId}>
+                <strong>{step.phase} · {step.title}</strong>
+                <span>{step.summary}</span>
+                <button className="button print-hide" type="button" aria-label={`查看任务：${step.title}`} onClick={() => onOpenTask(step.taskId)}>查看任务</button>
+              </li>
+            ))}
+          </ol>
+          <div className="mission-detail">
+            <div className="mission-block">
+              <h4>证件、路线和时刻一起确认</h4>
+              <ul>
+                <li>口岸临时通行证的受理及使用范围，需与西九龙铁路实名、通关要求分别核实。出世纸、回港证或办证回执不能直接当作已确认的高铁乘车凭证。</li>
+                <li>先查实际可售商务座的车次及杭州到站，再倒排出院、办证、喂养休息、交通和通关时间；若赶不上可行车次，调整返杭日期。</li>
+                <li>出院前分别询问产科和儿科是否适合当次长途出行。出院手续完成后仍需核对宝宝黄疸、喂养及复查安排。</li>
+              </ul>
+            </div>
+            <div className="mission-block">
+              <h4>放票、婴儿申报与接站</h4>
+              <ul>
+                <li>目前高铁预售期为15天，西九龙始发的新一日车票8:00起售；其他出发站按12306查询。临近出行重新核对车次、席别及退改规则。</li>
+                <li>目前每名年满18岁的旅客可免费携同一名不占座的6岁以下儿童；宝宝仍需有效证件、身份核验和免费儿童申报，需独占席位时按规则购儿童票。</li>
+                <li>出发前将车次、准确到站、抵达时间发给中心，确认接站人、出口、婴儿安全座椅、夜间入住和延误联络。</li>
+              </ul>
+            </div>
+            <div className="mission-block">
+              <h4>无法当天衔接时</h4>
+              <ul>
+                <li>预留可延住的香港住所、照护支持和复查地点；医生要求留院或复诊时按医院安排执行。</li>
+                <li>办证未受理、有效证件未签发、商务座无票或时间衔接不上时，同步改签、延后中心入住及接站。</li>
+                <li>未领妥的身份证、护照等，逐项核对宝宝本人到场、代领或寄递条件，不默认都能代办。</li>
+              </ul>
+            </div>
+            <div className="mission-block">
+              <h4>铁路参考 · 核对于2026.10.12</h4>
+              <ul>{Object.values(RETURN_HOME_SOURCES).map((reference) => (
+                <li key={reference.url}><a href={reference.url} target="_blank" rel="noreferrer">{reference.label}</a></li>
+              ))}</ul>
+            </div>
+          </div>
         </article>
-        <article id="documents" className="topic-card">
+        <article id="documents" className="topic-card topic-mission" data-testid="baby-documents-guide">
           <div className="topic-icon ti-sky" aria-hidden="true"><IconDoc size={20} /></div>
-          <p className="kicker">证件与产后</p>
-          <h3>宝宝能进入内地后再去深圳</h3>
-          <ul>
-            <li>香港出生登记应在出生后42天内完成。</li>
-            <li>入境内地证件类型以香港入境处、内地出入境部门及香港中旅核定为准。</li>
-            <li>妈妈产后约6周复查，同时完成宝宝黄疸、体重和疫苗衔接。</li>
-          </ul>
+          <p className="kicker">港宝五证 · 证件与产后</p>
+          <h3>先办出世纸，再衔接旅行证件与返杭安排</h3>
+          <p className="mission-sub">任务清单已拆为五项，可分别记录受理、领证和补交材料；另有产前准备及返杭前核对。证件资格以宝宝的国籍、居留权和受理部门核定为准。</p>
+          <ol className="mission-steps" aria-label="港宝五证办理顺序">
+            <li data-document-step="1"><strong>出世纸</strong><span>医院呈报出生资料后预约登记，实际出生后42天内办理并申领出生证明书；宝宝无需到场。</span></li>
+            <li data-document-step="2"><strong>香港永久性居民身份证</strong><span>符合资格、尚无身份证的11岁以下宝宝，首次申请特区护照时一并递交ROP3。</span></li>
+            <li data-document-step="3"><strong>香港特区护照</strong><span>核对中国国籍及永久居民资格，准备ID842、宝宝照片及所需副署资料，按通知领证。</span></li>
+            <li data-document-step="4"><strong>多次有效回港证</strong><span>由家长陪同宝宝办理，用于香港出入境；尚无身份证时，可按中旅要求用于回乡证申请。</span></li>
+            <li data-document-step="5"><strong>回乡证</strong><span>提前向香港中旅预约，由监护人陪同宝宝递交材料；照片需合格检测回执，按领证回执取证。</span></li>
+          </ol>
+          <div className="mission-detail">
+            <div className="mission-block">
+              <h4>同日递交 · 先核对特别安排</h4>
+              <ul>
+                <li>新生儿持当天签发的出世纸，且第11项注明符合《入境条例》附表1第2(a)项等要求时，可由父母或监护人带同宝宝在同日到入境处分区办事处递交旅行证件申请。</li>
+                <li>目前到达时限为周一至周五15:30前、周六11:00前，公众假期除外；不符合特别安排时按正常预约办理。</li>
+                <li>备好ID73A、ID842、ROP3及所需ID641副署资料；新生儿特别安排列明回港证照片2张、护照白底彩照3张。具体表格、照片及副署要求办理前再次核对。</li>
+              </ul>
+            </div>
+            <div className="mission-block">
+              <h4>受理与领证分开记录</h4>
+              <ul>
+                <li>出世纸亲身办理时可申领核证副本；回港证材料齐全的亲身申请一般可即日办妥。</li>
+                <li>未满11岁、尚无永久身份证的特区护照申请，材料齐全后处理时间目前为10个工作天内，另留领证或补件时间。</li>
+                <li>回乡证目前普通件预定12个工作日，加急预定5个工作日；未满3个月婴儿可查询预约绿色通道。实际取证以审批及回执为准。</li>
+                <li>任务日期暂按预产期安排，出生后按实际生日、预约与领证通知调整。</li>
+              </ul>
+            </div>
+            <div className="mission-block">
+              <h4>证件与母婴情况允许后再返杭</h4>
+              <ul>
+                <li>回港证用于香港出入境，回乡证用于来往内地；回乡证申请回执不能代替有效入境证件。</li>
+                <li>宝宝如已持有效本地签发永久身份证及特区护照，可按香港管制站要求使用该组合，无需重复申领回港证。</li>
+                <li>临时通行证仅作条件性备选，先向12367及拟受理口岸核实条件和时效；中旅另有临通受理要求。原攻略的当天返内地、1–2小时出证不作为交通安排的保证。</li>
+                <li>暂定争取出院日办证并衔接高铁返杭；实际出发需确认母婴适合长途、有效证件和铁路要求、中心接站入住，同时衔接妈妈及宝宝后续复查。</li>
+              </ul>
+            </div>
+            <div className="mission-block">
+              <h4>办理参考 · 核对于2026.10.12</h4>
+              <ul>{Object.values(BABY_DOCUMENT_SOURCES).map((reference) => (
+                <li key={reference.url}><a href={reference.url} target="_blank" rel="noreferrer">{reference.label}</a></li>
+              ))}</ul>
+              <p>经验笔记用于整理流程，实际资格、表格和办理时限以受理部门最新指引为准。</p>
+            </div>
+          </div>
         </article>
         <article id="emergency-detail" className="topic-card topic-danger">
           <div className="topic-icon ti-blush" aria-hidden="true"><IconActivity size={20} /></div>

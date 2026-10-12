@@ -148,7 +148,7 @@ export default function App() {
 
         <TripPanel active={activeTab === 'trip'} />
 
-        <TopicsPanel active={activeTab === 'topics'} />
+        <TopicsPanel active={activeTab === 'topics'} onOpenTask={openTask} />
 
         <footer className="app-footer">
           <strong>使用说明</strong>：本手册用于整理行动，不提供诊断或处方。任何出血、腹痛、胎动异常或医生提出的特殊风险，都应优先按医疗机构指引处理。香港资格、医院流程和宝宝证件政策可能更新，办理前请再次核对官方要求。

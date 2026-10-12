@@ -1,4 +1,5 @@
 import type { CategoryKey, PrenatalStatus, StatusKey } from '../types'
+import { PROFILE } from '../lib/date'
 
 export const STATUS_LABELS: Record<StatusKey, string> = {
   upcoming: '待办', active: '进行中', overdue: '已逾期', completed: '已完成',
@@ -44,6 +45,7 @@ export interface CountdownItem { label: string; date: string }
 export const COUNTDOWNS: CountdownItem[] = [
   { label: 'NT检查', date: '2026-09-28' },
   { label: '澳洲出发', date: '2026-10-02' },
+  { label: '香港建档（可改期）', date: PROFILE.hkBookingDate },
   { label: '大排畸窗口', date: '2026-11-16' },
   { label: '赴港待产', date: '2027-03-05' },
   { label: '预产期', date: '2027-04-05' },

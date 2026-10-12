@@ -3,6 +3,8 @@ export const PROFILE = {
   dueDate: '2027-04-05',
   tripStart: '2026-10-02',
   tripEnd: '2026-10-11',
+  hkBookingDate: '2026-10-26', // HA Go 当前预约，可按医院确认改期
+  hangzhouBookingWeek: 30, // 省妇保正式建档需到孕30周，具体办理日待医院确认
   hkWaitingStart: '2027-03-05',
   identity: '太太：香港优才主申请人；丈夫：受养人',
 } as const

@@ -30,7 +30,9 @@ npm run preview    # 本地预览构建产物（注意带 /pregnancy-companion/ 
 ```
 src/
   data/                  # ★ 全部业务数据在这里，改数据不需要动组件
-    _generated_tasks.ts      # 55 条任务（从旧版单文件提取生成，可整体重新生成）
+    _generated_tasks.ts      # 62 条任务（从旧版提取，已按实际进展更新）
+    babyDocuments.ts         # 港宝五证办理参考来源
+    returnHome.ts            # 出院办证、高铁返杭及中心接站节点与铁路参考
     _generated_prenatal.ts   # 14 条医学产检里程碑（同上）
     prenatal.ts              # 产检数据入口：医学节点 + 孕肚周记 + 孕妇照，按 start 排序
     tasks.ts                 # 任务数据入口 + taskStatus/taskRange/chooseNextTask
@@ -98,7 +100,7 @@ src/
 | 加/改一条任务 | `src/data/_generated_tasks.ts` |
 | 加/改产检里程碑 | `src/data/_generated_prenatal.ts` |
 | 调孕肚打卡频率 | `src/data/prenatal.ts` 的 `BELLY_PHOTO_WEEKS` |
-| 改预产期/末次月经/赴港日期 | `src/lib/date.ts` 的 `PROFILE`（部分日期也硬编码在数据文件里，需同步搜一遍） |
+| 改预产期/末次月经/赴港日期 | `src/lib/date.ts` 的 `PROFILE`（`hkBookingDate` 为当前香港建档预约；部分日期也硬编码在数据文件里，需同步搜一遍） |
 | 首页倒计时 | `src/data/labels.ts` 的 `COUNTDOWNS` |
 | 改颜色/间距/圆角 | `src/styles.css` 的 `:root` |
 | 加新图标 | `src/components/icons.tsx`，内联 SVG，与现有描边风格一致 |

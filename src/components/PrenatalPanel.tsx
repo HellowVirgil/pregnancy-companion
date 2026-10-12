@@ -118,7 +118,7 @@ export default function PrenatalPanel({ state, actions, active, openIds, onToggl
                       <span className="state-chip">{stateLabel}</span>
                     </span>
                     <span className="prenatal-summary">{item.summary}</span>
-                    <span className="prenatal-when">{item.gestation} · {prenatalRange(item)} · {item.place}</span>
+                    <span className="prenatal-when">{item.gestation} · {prenatalRange(item, completed)} · {item.place}</span>
                   </span>
                   <span className="prenatal-chevron" aria-hidden="true"><IconChevron size={15} /></span>
                 </button>

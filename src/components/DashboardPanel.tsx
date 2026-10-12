@@ -42,6 +42,7 @@ export default function DashboardPanel({ state, actions, active, onOpenSos, onOp
   const futureLimit = addDays(date, 30)
   const upcoming = TASKS
     .filter((task) => !state.completed[task.id] && task.end >= date && task.start <= futureLimit)
+    .sort((a, b) => a.end.localeCompare(b.end))
     .slice(0, 6)
   const deadline = TASKS
     .filter((task) => task.hardDeadline && !state.completed[task.id] && task.end >= date)
@@ -114,10 +115,16 @@ export default function DashboardPanel({ state, actions, active, onOpenSos, onOp
 
       <div className="confirmed-strip" data-testid="confirmed-progress" role="status">
         <span className="confirmed-title">最新进展</span>
-        <div className="confirmed-item"><small>早孕复诊</small><strong>已完成多次早孕复诊</strong></div>
-        <div className="confirmed-item"><small>超声结果</small><strong>已见胎心胎芽</strong></div>
-        <div className="confirmed-item"><small>下一项已预约</small><strong>9月28日 · NT</strong></div>
-        <div className="confirmed-item"><small>随后</small><strong>9月30日 · 建社区小卡</strong></div>
+        <div className="confirmed-item"><small>社区建档</small><strong>已完成杭州社区建册</strong></div>
+        <div className="confirmed-item"><small>NT 超声</small><strong>已完成</strong></div>
+        <div className="confirmed-item"><small>筛查方案</small><strong>已确定无创 Plus</strong></div>
+        <div className="confirmed-item"><small>四维检查</small><strong>待预约检查时间</strong></div>
+        <div className="confirmed-item"><small>省妇保建档</small><strong>{`孕${PROFILE.hangzhouBookingWeek}周起办理 · 具体日期待定`}</strong></div>
+        <div className="confirmed-item"><small>澳洲旅行</small><strong>已完成行程并返程</strong></div>
+        <div className="confirmed-item"><small>HA Go 已预约</small><strong>{`${formatShortDate(PROFILE.hkBookingDate)} · 东区建档（可改期）`}</strong></div>
+        <div className="confirmed-item"><small>下次赴港</small><strong>正式建档，同步确定待产酒店</strong></div>
+        <div className="confirmed-item"><small>返杭计划</small><strong>暂定出院日办证，高铁商务座返杭</strong></div>
+        <div className="confirmed-item"><small>产后照护</small><strong>杭州月子中心接站入住 · 待落实</strong></div>
       </div>
 
       <button className="emergency-compact" type="button" onClick={onOpenSos} data-testid="emergency-alert">
@@ -190,7 +197,7 @@ export default function DashboardPanel({ state, actions, active, onOpenSos, onOp
             <div className="progress-track" aria-label="孕肚周记完成进度">
               <div className="progress-fill" style={{ width: `${photoTotal ? Math.round((photoDone / photoTotal) * 100) : 0}%`, background: 'linear-gradient(90deg, #e8b09a, var(--blush))' }} />
             </div>
-            <p className="progress-hint">产检、香港登记、旅行、月子、月嫂和证件统一记录；孕肚周记每两周一张</p>
+            <p className="progress-hint">产检、香港登记、旅行、杭州产后照护和证件统一记录；孕肚周记每两周一张</p>
           </div>
         </div>
       </div>
